@@ -1,0 +1,4 @@
+This file lists all the contributors to this repository.
+
+Ismael Buere <7476@holbertonschool.com>
+Eithan Tabarez <7722@holbertonstudents.com>
