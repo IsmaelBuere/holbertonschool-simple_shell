@@ -15,5 +15,6 @@ char **split_string(char *buffer, char *del);
 void free_tokens(char **tokens);
 void execute_command(char **args, char **env);
 int main(int ac, char **av, char **env);
+int is_terminal(int fd);
 
 #endif
