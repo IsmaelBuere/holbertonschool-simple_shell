@@ -6,7 +6,7 @@
  *
  * Return: An array of tokens, or NULL on failure.
  */
-static void free_tokens(char **tokens)
+void free_tokens(char **tokens)
 {
 	int i = 0;
 
@@ -36,7 +36,6 @@ char **split_string(char *buffer, char *del)
 		tokens[i] = strdup(token);
 		if (!tokens[i])
 		{
-			free_tokens(tokens);
 			return (NULL);
 		}
 		token = strtok(NULL, del);
