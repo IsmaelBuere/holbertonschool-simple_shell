@@ -6,38 +6,32 @@
  *
  * Return: An array of tokens, or NULL on failure.
  */
-void free_tokens(char **tokens)
-{
-	int i = 0;
-
-	while (tokens[i])
-	{
-		free(tokens[i]);
-		i++;
-	}
-	free(tokens);
-}
-
 char **split_string(char *buffer, char *del)
 {
-	char **tokens;
+	char **tokens = NULL;
 	char *token;
-	int i = 0;
-
-	tokens = malloc(sizeof(char *) * 1024);
-	if (!tokens)
-	{
-		return (NULL);
-	}
+	int j, i = 0;
 
 	token = strtok(buffer, del);
 	while (token)
 	{
-		tokens[i] = strdup(token);
-		if (!tokens[i])
+		tokens = realloc(tokens, sizeof(char *) * (i + 2));
+		if (!tokens)
 		{
 			return (NULL);
 		}
+
+		tokens[i] = strdup(token);
+		if (!tokens[i])
+		{
+			for (j = 0; j < i; j++)
+			{
+				free(tokens[j]);
+			}
+			free(tokens);
+			return (NULL);
+		}
+
 		token = strtok(NULL, del);
 		i++;
 	}
