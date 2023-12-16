@@ -13,7 +13,7 @@ char **split_string(char *buffer, char *del)
     size_t capacity = 1024;
     size_t size = 0;
 
-    tokens = malloc(sizeof(char *) * capacity);
+    tokens = (char **)malloc(sizeof(char *) * capacity);
     if (!tokens)
     {
         return NULL;
@@ -22,22 +22,31 @@ char **split_string(char *buffer, char *del)
     token = strtok(buffer, del);
     while (token)
     {
-        tokens[size] = strdup(token);
+        tokens[size] = (char *)malloc(strlen(token) + 1);
         if (!tokens[size])
         {
-            free_tokens(tokens);
+            for (size_t i = 0; i < size; ++i)
+            {
+                free(tokens[i]);
+            }
+            free(tokens);
             return NULL;
         }
 
+        strcpy(tokens[size], token);
         size++;
 
         if (size == capacity)
         {
             capacity *= 2;
-            temp = realloc(tokens, sizeof(char *) * capacity);
+            temp = (char **)realloc(tokens, sizeof(char *) * capacity);
             if (!temp)
             {
-                free_tokens(tokens);
+                for (size_t i = 0; i < size; ++i)
+                {
+                    free(tokens[i]);
+                }
+                free(tokens);
                 return NULL;
             }
             tokens = temp;
