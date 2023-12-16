@@ -8,54 +8,29 @@
  */
 char **split_string(char *buffer, char *del)
 {
-    char **tokens = NULL;
-    char *token;
-    int j, i = 0;
+	char **tokens;
+	char *token;
+	int i = 0;
 
-    token = strtok(buffer, del);
-    while (token)
-    {
-        char **new_tokens = realloc(tokens, sizeof(char *) * (i + 2));
-        if (!new_tokens)
-        {
-            for (j = 0; j < i; j++)
-            {
-                free(tokens[j]);
-            }
-            free(tokens);
-            return (NULL);
-        }
-        tokens = new_tokens;
+	tokens = malloc(sizeof(char *) * 1024);
+	if (!tokens)
+	{
+		return (NULL);
+	}
 
-        tokens[i] = strdup(token);
-        if (!tokens[i])
-        {
-            for (j = 0; j < i; j++)
-            {
-                free(tokens[j]);
-            }
-            free(tokens);
-            return (NULL);
-        }
+	token = strtok(buffer, del);
+	while (token)
+	{
+		tokens[i] = strdup(token);
+		if (!tokens[i])
+		{
+			free_tokens(tokens);
+			return (NULL);
+		}
+		token = strtok(NULL, del);
+		i++;
+	}
 
-        token = strtok(NULL, del);
-        i++;
-    }
-    if (tokens)
-    {
-        char **final_tokens = realloc(tokens, sizeof(char *) * (i + 1));
-        if (!final_tokens)
-        {
-            for (j = 0; j < i; j++)
-            {
-                free(tokens[j]);
-            }
-            free(tokens);
-            return (NULL);
-        }
-        tokens = final_tokens;
-        tokens[i] = NULL;
-    }
-
-    return (tokens);
+	tokens[i] = NULL;
+	return (tokens);
 }
