@@ -8,11 +8,12 @@
  */
 char **split_string(char *buffer, char *del)
 {
-    char **tokens;
+    char **tokens = NULL;
     char *token;
-    int i = 0;
+    size_t capacity = 1024;  // Tamaño inicial del array
+    size_t size = 0;         // Número actual de elementos en el array
 
-    tokens = malloc(sizeof(char *) * 1024);
+    tokens = malloc(sizeof(char *) * capacity);
     if (!tokens)
     {
         return NULL;
@@ -21,27 +22,31 @@ char **split_string(char *buffer, char *del)
     token = strtok(buffer, del);
     while (token)
     {
-        tokens[i] = strdup(token);
-        if (!tokens[i])
+        tokens[size] = strdup(token);
+        if (!tokens[size])
         {
             free_tokens(tokens);
             return NULL;
         }
+
+        size++;
+
+        if (size == capacity)
+        {
+            capacity *= 2;
+            char **temp = realloc(tokens, sizeof(char *) * capacity);
+            if (!temp)
+            {
+                free_tokens(tokens);
+                return NULL;
+            }
+            tokens = temp;
+        }
+
         token = strtok(NULL, del);
-        i++;
     }
 
-    tokens[i] = NULL;
-	
-    if (i < 1024)
-    {
-        tokens = realloc(tokens, sizeof(char *) * (i + 1));
-        if (!tokens)
-        {
-            free_tokens(tokens);
-            return NULL;
-        }
-    }
+    tokens[size] = NULL;
 
     return tokens;
 }
