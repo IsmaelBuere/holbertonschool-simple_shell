@@ -6,6 +6,18 @@
  *
  * Return: An array of tokens, or NULL on failure.
  */
+void free_tokens(char **tokens)
+{
+	int i = 0;
+
+	while (tokens[i])
+	{
+		free(tokens[i]);
+		i++;
+	}
+	free(tokens);
+}
+
 char **split_string(char *buffer, char *del)
 {
 	char **tokens;
@@ -34,3 +46,4 @@ char **split_string(char *buffer, char *del)
 	tokens[i] = NULL;
 	return (tokens);
 }
+
