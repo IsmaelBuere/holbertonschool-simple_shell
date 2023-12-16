@@ -25,7 +25,6 @@ char **split_string(char *buffer, char *del)
 			free(tokens);
 			return (NULL);
 		}
-
 		tokens = new_tokens;
 		tokens[i] = strdup(token);
 		if (!tokens[i])
