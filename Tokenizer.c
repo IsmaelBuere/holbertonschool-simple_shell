@@ -41,19 +41,21 @@ char **split_string(char *buffer, char *del)
         token = strtok(NULL, del);
         i++;
     }
-
-    char **final_tokens = realloc(tokens, sizeof(char *) * (i + 1));
-    if (!final_tokens)
+    if (tokens)
     {
-        for (j = 0; j < i; j++)
+        char **final_tokens = realloc(tokens, sizeof(char *) * (i + 1));
+        if (!final_tokens)
         {
-            free(tokens[j]);
+            for (j = 0; j < i; j++)
+            {
+                free(tokens[j]);
+            }
+            free(tokens);
+            return (NULL);
         }
-        free(tokens);
-        return (NULL);
+        tokens = final_tokens;
+        tokens[i] = NULL;
     }
-    tokens = final_tokens;
-    tokens[i] = NULL;
 
     return (tokens);
 }
