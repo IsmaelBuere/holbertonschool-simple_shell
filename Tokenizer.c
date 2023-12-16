@@ -6,7 +6,7 @@
  *
  * Return: An array of tokens, or NULL on failure.
  */
-void free_tokens(char **tokens)
+static void free_tokens(char **tokens)
 {
 	int i = 0;
 
