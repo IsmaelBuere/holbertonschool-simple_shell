@@ -15,12 +15,18 @@ char **split_string(char *buffer, char *del)
 	token = strtok(buffer, del);
 	while (token)
 	{
-		tokens = realloc(tokens, sizeof(char *) * (i + 2));
-		if (!tokens)
+		char **new_tokens = realloc(tokens, sizeof(char *) * (i + 2));
+		if (!new_tokens)
 		{
+			for (j = 0; j < i; j++)
+			{
+				free(tokens[j]);
+			}
+			free(tokens);
 			return (NULL);
 		}
 
+		tokens = new_tokens;
 		tokens[i] = strdup(token);
 		if (!tokens[i])
 		{
