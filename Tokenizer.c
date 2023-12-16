@@ -34,7 +34,7 @@ char **split_string(char *buffer, char *del)
         if (size == capacity)
         {
             capacity *= 2;
-            **temp = realloc(tokens, sizeof(char *) * capacity);
+            temp = realloc(tokens, sizeof(char *) * capacity);
             if (!temp)
             {
                 free_tokens(tokens);
