@@ -8,10 +8,10 @@
  */
 char **split_string(char *buffer, char *del)
 {
-    char **tokens = NULL;
+    char **temp, **tokens = NULL;
     char *token;
-    size_t capacity = 1024;  // Tamaño inicial del array
-    size_t size = 0;         // Número actual de elementos en el array
+    size_t capacity = 1024;
+    size_t size = 0;
 
     tokens = malloc(sizeof(char *) * capacity);
     if (!tokens)
@@ -34,7 +34,7 @@ char **split_string(char *buffer, char *del)
         if (size == capacity)
         {
             capacity *= 2;
-            char **temp = realloc(tokens, sizeof(char *) * capacity);
+            **temp = realloc(tokens, sizeof(char *) * capacity);
             if (!temp)
             {
                 free_tokens(tokens);
