@@ -20,17 +20,25 @@ char *get_command(char *command)
     else
     {
         token = strtok(path, ":");
-        while (token)
+        while (token && result == NULL)
         {
             cmd_full = malloc(strlen(token) + strlen(command) + 2);
+            if (cmd_full == NULL)
+            {
+                perror("malloc");
+                exit(1);
+            }
             strcpy(cmd_full, token);
             strcat(cmd_full, "/");
             strcat(cmd_full, command);
             if (stat(cmd_full, &st) == 0)
             {
                 result = strdup(cmd_full);
-                free(cmd_full);
-                break;
+                if (result == NULL)
+                {
+                    perror("strdup");
+                    exit(1);
+                }
             }
             free(cmd_full);
             token = strtok(NULL, ":");

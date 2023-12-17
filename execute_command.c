@@ -40,12 +40,12 @@ void execute_command(char **args, char **env)
         }
         else
         {
-            printf("Command not found\n");
+            fprintf(stderr, "Command not found\n");
             exit(1);
         }
     }
     else
     {
-        waitpid(pid, &status, 0); 
+        waitpid(pid, &status, 0);
     }
 }
