@@ -26,6 +26,7 @@ char **split_string(char *buffer, char *del)
         {
             free_tokens(tokens);
             free_tokens(i);
+            
             return NULL;
         }
         token = strtok(NULL, del);

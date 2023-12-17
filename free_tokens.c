@@ -12,7 +12,7 @@
  * Return: No return value.
  */
 
-void free_tokens(char **tokens)
+void free_tokens(int **tokens)
 {
     int i;
     int count = 0;
