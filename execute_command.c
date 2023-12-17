@@ -34,18 +34,31 @@ void execute_command(char **args, char **env)
             if (execve(cmd, args, env) == -1)
             {
                 perror("execve");
-                exit(1);
+                exit(127);
             }
             free(cmd);
         }
         else
         {
             fprintf(stderr, "Command not found\n");
-            exit(1);
+            exit(126);
         }
     }
     else
     {
         waitpid(pid, &status, 0);
+        if (WIFEXITED(status))
+        {
+            int exit_status = WEXITSTATUS(status);
+
+            if (exit_status != 0)
+            {
+                fprintf(stderr, "Command exited with status %d\n", exit_status);
+            }
+        }
+        else if (WIFSIGNALED(status))
+        {
+            fprintf(stderr, "Command terminated by signal %d\n", WTERMSIG(status));
+        }
     }
 }
