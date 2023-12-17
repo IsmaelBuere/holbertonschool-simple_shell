@@ -20,7 +20,7 @@ int main(int ac, char **av, char **env)
     while (1)
     {
         if (is_terminal(STDIN_FILENO))
-            write(1, "8=D", 3);
+            write(1, "&-", 3);
 
         n_chars = getline(&buffer, &buffer_size, stdin);
         if (n_chars == -1)
