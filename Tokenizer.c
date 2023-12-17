@@ -17,7 +17,7 @@ char **split_string(char *buffer, char *del)
 	{
 		return (NULL);
 	}
-    token = strtok(buffer, del);
+   token = strtok(buffer, del);
     while (token) {
         tokens[i] = strdup(token);
         if (!tokens[i]) {
@@ -27,7 +27,13 @@ char **split_string(char *buffer, char *del)
         token = strtok(NULL, del);
         i++;
     }
-
+	
     tokens[i] = NULL;
+    if (i > 0 && i % 1024 != 0) {
+        for (int j = i; j < 1024; j++) {
+            tokens[j] = NULL;
+        }
+    }
+
     return tokens;
 }

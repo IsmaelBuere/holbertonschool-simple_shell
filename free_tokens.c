@@ -12,14 +12,15 @@
  * Return: No return value.
  */
 
-void free_tokens(char **tokens)
+void free_tokens(char **tokens, int count)
 {
-    int i = 0;
-
-    while (tokens[i])
-    {
-        free(tokens[i]);
-        i++;
+    if (tokens) {
+        for (int i = 0; i < count; i++) {
+            if (tokens[i]) {
+                free(tokens[i]);
+                tokens[i] = NULL;
+            }
+        }
+        free(tokens);
     }
-    free(tokens);
 }
