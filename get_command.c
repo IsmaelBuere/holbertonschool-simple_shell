@@ -8,50 +8,35 @@
  */
 char *get_command(char *command)
 {
-	char *token, *cmd_full, *path = _getenv("PATH");
-	struct stat st;
+    char *token, *cmd_full, *path = _getenv("PATH");
+    struct stat st;
     char *result = NULL;
 
-
-	if (command[0] == '/')
-	{
-		struct stat st;
-
-		if (stat(command, &st) == 0)
-			return (strdup(command));
-		else
-			return (NULL);
-	}
-	token = strtok(path, ":");
-	while (token)
-	{
-		cmd_full = malloc(strlen(token) + strlen(command) + 2);
-		strcpy(cmd_full, token);
-		strcat(cmd_full, "/");
-		strcat(cmd_full, command);
-		if (stat(cmd_full, &st) == 0)
-		{
-			free(path);
-			return (cmd_full);
-		}
-		free(cmd_full);
-		token = strtok(NULL, ":");
-	}
-	if (strcmp(command, "ls") == 0)
-	{
-		free(path);
-		return (strdup("/bin/ls"));
-	}
-	free(path);
-	return (NULL);
-
-    if (command[0] == '/') 
-	{
-        struct stat st;
-
+    if (command[0] == '/')
+    {
         if (stat(command, &st) == 0)
             result = strdup(command);
     }
+    else
+    {
+        token = strtok(path, ":");
+        while (token)
+        {
+            cmd_full = malloc(strlen(token) + strlen(command) + 2);
+            strcpy(cmd_full, token);
+            strcat(cmd_full, "/");
+            strcat(cmd_full, command);
+            if (stat(cmd_full, &st) == 0)
+            {
+                result = strdup(cmd_full);
+                free(cmd_full);
+                break;
+            }
+            free(cmd_full);
+            token = strtok(NULL, ":");
+        }
+    }
 
+    free(path);
     return result;
 }

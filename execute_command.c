@@ -15,37 +15,37 @@
  */
 void execute_command(char **args, char **env)
 {
-	pid_t pid;
-	int status;
+    pid_t pid;
+    int status;
 
-	pid = fork();
+    pid = fork();
 
-	if (pid == -1)
-	{
-		perror("fork");
-		exit(1);
-	}
-	else if (pid == 0)
-	{
-		char *cmd = get_command(args[0]);
+    if (pid == -1)
+    {
+        perror("fork");
+        exit(1);
+    }
+    else if (pid == 0)
+    {
+        char *cmd = get_command(args[0]);
 
-		if (cmd)
-		{
-			if (execve(cmd, args, env) == -1)
-			{
-				perror("execve");
-				exit(1);
-			}
-			free(cmd);
-		}
-		else
-		{
-			printf("Command not found\n");
-			exit(1);
-		}
-	}
-	else
-	{
-		wait(&status);
-	}
+        if (cmd)
+        {
+            if (execve(cmd, args, env) == -1)
+            {
+                perror("execve");
+                exit(1);
+            }
+            free(cmd);
+        }
+        else
+        {
+            printf("Command not found\n");
+            exit(1);
+        }
+    }
+    else
+    {
+        waitpid(pid, &status, 0); 
+    }
 }
