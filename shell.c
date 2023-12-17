@@ -14,7 +14,10 @@ int main(int ac, char **av, char **env)
     size_t buffer_size = 0;
     int n_chars;
     int status;
-
+	(void)status;
+	(void)ac;
+	(void)av;
+	
     while (1)
     {
         if (is_terminal(STDIN_FILENO))
