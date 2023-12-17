@@ -17,20 +17,17 @@ char **split_string(char *buffer, char *del)
 	{
 		return (NULL);
 	}
+    token = strtok(buffer, del);
+    while (token) {
+        tokens[i] = strdup(token);
+        if (!tokens[i]) {
+            free_tokens(tokens, i); // Liberar memoria antes de retornar NULL
+            return NULL;
+        }
+        token = strtok(NULL, del);
+        i++;
+    }
 
-	token = strtok(buffer, del);
-	while (token)
-	{
-		tokens[i] = strdup(token);
-		if (!tokens[i])
-		{
-			free_tokens(tokens);
-			return (NULL);
-		}
-		token = strtok(NULL, del);
-		i++;
-	}
-
-	tokens[i] = NULL;
-	return (tokens);
+    tokens[i] = NULL;
+    return tokens;
 }
