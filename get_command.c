@@ -42,4 +42,15 @@ char *get_command(char *command)
 	}
 	free(path);
 	return (NULL);
+
+    char *result = NULL;
+    if (command[0] == '/') 
+	{
+        struct stat st;
+
+        if (stat(command, &st) == 0)
+            result = strdup(command);
+    }
+
+    return result;
 }
