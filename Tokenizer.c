@@ -21,7 +21,7 @@ char **split_string(char *buffer, char *del)
     while (token) {
         tokens[i] = strdup(token);
         if (!tokens[i]) {
-            free_tokens(tokens, i); // Liberar memoria antes de retornar NULL
+            free_tokens(tokens, i);
             return NULL;
         }
         token = strtok(NULL, del);
