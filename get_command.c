@@ -10,6 +10,8 @@ char *get_command(char *command)
 {
 	char *token, *cmd_full, *path = _getenv("PATH");
 	struct stat st;
+    char *result = NULL;
+
 
 	if (command[0] == '/')
 	{
@@ -43,8 +45,6 @@ char *get_command(char *command)
 	free(path);
 	return (NULL);
 
-    char *result = NULL;
-	
     if (command[0] == '/') 
 	{
         struct stat st;

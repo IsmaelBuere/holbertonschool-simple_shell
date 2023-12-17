@@ -15,7 +15,7 @@
 void free_tokens(char **tokens)
 {
     int i;
-    int count;
+    int count = 0;
 
 
     if (tokens)

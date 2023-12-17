@@ -24,7 +24,8 @@ char **split_string(char *buffer, char *del)
         tokens[i] = strdup(token);
         if (!tokens[i])
         {
-            free_tokens(tokens, i);
+            free_tokens(tokens);
+            free_tokens(i);
             return NULL;
         }
         token = strtok(NULL, del);
@@ -34,7 +35,7 @@ char **split_string(char *buffer, char *del)
     tokens[i] = NULL;
     if (i > 0 && i % 1024 != 0)
     {
-        for(j = i; j < 1024; j++)
+        for (j = i; j < 1024; j++)
         {
             tokens[j] = NULL;
         }
