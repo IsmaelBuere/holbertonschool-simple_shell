@@ -28,6 +28,8 @@ char **split_string(char *buffer, char *del)
         i++;
     }
 	
+	int j
+
     tokens[i] = NULL;
     if (i > 0 && i % 1024 != 0) {
         for (int j = i; j < 1024; j++) {

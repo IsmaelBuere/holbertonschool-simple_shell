@@ -14,6 +14,8 @@
 
 void free_tokens(char **tokens, int count)
 {
+    int i;
+
     if (tokens) {
         for (int i = 0; i < count; i++) {
             if (tokens[i]) {

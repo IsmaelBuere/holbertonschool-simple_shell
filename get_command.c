@@ -44,6 +44,7 @@ char *get_command(char *command)
 	return (NULL);
 
     char *result = NULL;
+	
     if (command[0] == '/') 
 	{
         struct stat st;
