@@ -1,5 +1,4 @@
 #include "shell.h"
-
 /**
  * main - Entry point for a simple shell program.
  * @ac: Number of arguments.
