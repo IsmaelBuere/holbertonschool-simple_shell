@@ -10,7 +10,8 @@ char **split_string(char *buffer, char *del)
 {
 	char **tokens;
 	char *token;
-	int i = 0;
+	int i = 0;	
+	int j;
 
 	tokens = malloc(sizeof(char *) * 1024);
 	if (!tokens)
@@ -18,21 +19,23 @@ char **split_string(char *buffer, char *del)
 		return (NULL);
 	}
    token = strtok(buffer, del);
-    while (token) {
+    while (token)
+    {
         tokens[i] = strdup(token);
-        if (!tokens[i]) {
+        if (!tokens[i])
+        {
             free_tokens(tokens, i);
             return NULL;
         }
         token = strtok(NULL, del);
         i++;
     }
-	
-	int j
 
     tokens[i] = NULL;
-    if (i > 0 && i % 1024 != 0) {
-        for (int j = i; j < 1024; j++) {
+    if (i > 0 && i % 1024 != 0)
+    {
+        for(j = i; j < 1024; j++)
+        {
             tokens[j] = NULL;
         }
     }

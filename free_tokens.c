@@ -20,7 +20,7 @@ void free_tokens(char **tokens)
 
     if (tokens)
     {
-        for (i = 0; i < count; i++)
+        for(i = 0; i < count; i++)
         {
             if (tokens[i])
             {
