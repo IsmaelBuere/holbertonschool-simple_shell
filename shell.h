@@ -14,8 +14,9 @@ char *get_command(char *command);
 char **split_string(char *buffer, char *del);
 void free_tokens(char **tokens);
 void execute_command(char **args, char **env);
-int main(int ac, char **av, char **env);
+int main(void);
 int is_terminal(int fd);
+void display_prompt();
 
 
 #endif
