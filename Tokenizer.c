@@ -6,31 +6,36 @@
  *
  * Return: An array of tokens, or NULL on failure.
  */
-char **split_string(char *buffer, char *del)
+char **split_string(const char *str, const char *delimiters)
 {
-	char **tokens;
-	char *token;
-	int i = 0;
+    char **tokens = NULL;
+    char *token = strtok(strdup(str), delimiters);
+    size_t count = 0;
 
-	tokens = malloc(sizeof(char *) * 1024);
-	if (!tokens)
-	{
-		return (NULL);
-	}
+    while (token) {
+        tokens = realloc(tokens, (count + 1) * sizeof(char *));
+        if (!tokens) {
+            perror("realloc");
+            exit(EXIT_FAILURE);
+        }
 
-	token = strtok(buffer, del);
-	while (token)
-	{
-		tokens[i] = strdup(token);
-		if (!tokens[i])
-		{
-			free_tokens(tokens);
-			return (NULL);
-		}
-		token = strtok(NULL, del);
-		i++;
-	}
+        tokens[count] = strdup(token);
+        if (!tokens[count]) {
+            perror("strdup");
+            exit(EXIT_FAILURE);
+        }
 
-	tokens[i] = NULL;
-	return (tokens);
+        count++;
+        token = strtok(NULL, delimiters);
+    }
+
+    tokens = realloc(tokens, (count + 1) * sizeof(char *));
+    if (!tokens) {
+        perror("realloc");
+        exit(EXIT_FAILURE);
+    }
+
+    tokens[count] = NULL;
+
+    return tokens;
 }
