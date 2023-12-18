@@ -11,7 +11,7 @@ char *get_command(char *command)
     char *token, *cmd_full, *path = _getenv("PATH");
     struct stat st;
     char *saveptr;
-	
+	(void)saveptr;
 
     if (command[0] == '/')
     {
