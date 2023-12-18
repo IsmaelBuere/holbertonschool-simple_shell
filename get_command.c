@@ -8,10 +8,8 @@
  */
 char *get_command(char *command)
 {
-    char *token, *cmd_full, *path = _getenv("PATH");
+    char *cmd_full, *path = _getenv("PATH");
     struct stat st;
-    char *saveptr;
-	(void)saveptr;
 
     if (command[0] == '/')
     {
@@ -21,7 +19,13 @@ char *get_command(char *command)
             return NULL;
     }
 
-    token = strsep(&path, ":");
+    if (stat(command, &st) == 0)
+    {
+        free(path);
+        return strdup(command);
+    }
+
+    char *token = strtok(path, ":");
     while (token)
     {
         cmd_full = malloc(strlen(token) + strlen(command) + 2);
@@ -33,19 +37,15 @@ char *get_command(char *command)
         strcpy(cmd_full, token);
         strcat(cmd_full, "/");
         strcat(cmd_full, command);
+
         if (stat(cmd_full, &st) == 0)
         {
             free(path);
             return cmd_full;
         }
-        free(cmd_full);
-        token = strsep(&path, ":");
-    }
 
-    if (stat(command, &st) == 0)
-    {
-        free(path);
-        return strdup(command);
+        free(cmd_full);
+        token = strtok(NULL, ":");
     }
 
     free(path);
