@@ -10,41 +10,43 @@ char *get_command(char *command)
 {
     char *token, *cmd_full, *path = _getenv("PATH");
     struct stat st;
-    char *result = NULL;
 
     if (command[0] == '/')
     {
         if (stat(command, &st) == 0)
-            result = strdup(command);
+            return strdup(command);
+        else
+            return NULL;
     }
-    else
+
+    token = strtok_r(path, ":", &path);
+    while (token)
     {
-        token = strtok(path, ":");
-        while (token && result == NULL)
+        cmd_full = malloc(strlen(token) + strlen(command) + 2);
+        if (!cmd_full)
         {
-            cmd_full = malloc(strlen(token) + strlen(command) + 2);
-            if (cmd_full == NULL)
-            {
-                perror("malloc");
-                exit(1);
-            }
-            strcpy(cmd_full, token);
-            strcat(cmd_full, "/");
-            strcat(cmd_full, command);
-            if (stat(cmd_full, &st) == 0)
-            {
-                result = strdup(cmd_full);
-                if (result == NULL)
-                {
-                    perror("strdup");
-                    exit(1);
-                }
-            }
-            free(cmd_full);
-            token = strtok(NULL, ":");
+            perror("malloc");
+            exit(EXIT_FAILURE);
         }
+        strcpy(cmd_full, token);
+        strcat(cmd_full, "/");
+        strcat(cmd_full, command);
+        if (stat(cmd_full, &st) == 0)
+        {
+            free(path);
+            return cmd_full;
+        }
+        free(cmd_full);
+        token = strtok_r(path, ":", &path);
+    }
+
+
+    if (stat(command, &st) == 0)
+    {
+        free(path);
+        return strdup(command);
     }
 
     free(path);
-    return result;
+    return NULL;
 }
