@@ -19,7 +19,8 @@ char *get_command(char *command)
             return NULL;
     }
 
-    token = strtok_r(path, ":", &path);
+    char *saveptr;
+    token = strsep(&path, ":");
     while (token)
     {
         cmd_full = malloc(strlen(token) + strlen(command) + 2);
@@ -37,9 +38,8 @@ char *get_command(char *command)
             return cmd_full;
         }
         free(cmd_full);
-        token = strtok_r(path, ":", &path);
+        token = strsep(&path, ":");
     }
-
 
     if (stat(command, &st) == 0)
     {
