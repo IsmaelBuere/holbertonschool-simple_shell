@@ -15,17 +15,16 @@
  */
 void execute_command(char **args, char **env)
 {
-    pid_t pid;
+    pid_t child_pid;
     int status;
 
-    pid = fork();
-
-    if (pid == -1)
+    child_pid = fork();
+    if (child_pid == -1)
     {
         perror("fork");
-        exit(1);
+        exit(EXIT_FAILURE);
     }
-    else if (pid == 0)
+    if (child_pid == 0)
     {
         char *cmd = get_command(args[0]);
 
@@ -33,20 +32,21 @@ void execute_command(char **args, char **env)
         {
             if (execve(cmd, args, env) == -1)
             {
-                perror("execve");
-                exit(2);
+                perror(args[0]);
+                exit(EXIT_FAILURE);
             }
             free(cmd);
         }
         else
         {
-            fprintf(stderr, "Command not found\n");
-            exit(127);
+            fprintf(stderr, "%s: command not found\n", args[0]);
+            exit(EXIT_FAILURE);
         }
     }
     else
     {
-        waitpid(pid, &status, 0);
+        waitpid(child_pid, &status, 0);
+
         if (WIFEXITED(status))
         {
             int exit_status = WEXITSTATUS(status);
