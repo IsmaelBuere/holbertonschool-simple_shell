@@ -10,6 +10,7 @@ char *get_command(char *command)
 {
     char *cmd_full, *path = _getenv("PATH");
     struct stat st;
+    char *token = strtok(path, ":");
 
     if (command[0] == '/')
     {
@@ -27,7 +28,7 @@ char *get_command(char *command)
     }
 
 
-    char *token = strtok(path, ":");
+
     while (token)
     {
         cmd_full = malloc(strlen(token) + strlen(command) + 2);
